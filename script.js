@@ -1,17 +1,34 @@
 function formatIndianCurrency(number) {
-      return new Intl.NumberFormat('en-IN').format(number);
-    }
+  return new Intl.NumberFormat('en-IN').format(number);
+}
 
 function calculateInflation() {
-  const year = parseInt(document.getElementById('year').value);
+  const yearInput = document.getElementById('year');
+  const year = parseInt(yearInput.value);
   const amount = parseFloat(document.getElementById('amount').value);
   const resultDiv = document.querySelector('.result');
   const output = document.getElementById('output');
+  const yearErrorDiv = document.getElementById('year-error');
 
-  // Validation
-  if (isNaN(year) || isNaN(amount) || year < 1947 || year > 2023) {
-    alert('Please enter a valid year (1947–2023) and amount.');
-    resultDiv.style.display = 'none';
+  // Reset previous error message and result
+  yearErrorDiv.textContent = '';
+  resultDiv.style.display = 'none';
+
+  // Validation for year
+  if (isNaN(year) || year < 1947 || year > 2023) {
+    yearErrorDiv.textContent = 'Please enter a valid year (1947–2023).';
+    yearErrorDiv.style.display = 'block';
+    yearInput.classList.add('error-input');
+    return;
+  }
+
+  yearErrorDiv.style.display = 'none';
+  yearInput.classList.remove('error-input');
+
+  // Validation for amount
+  if (isNaN(amount) || amount <= 0) {
+    yearErrorDiv.textContent = 'Please enter a valid amount greater than 0.';
+    yearErrorDiv.style.display = 'block';
     return;
   }
 
@@ -20,9 +37,9 @@ function calculateInflation() {
   const averageInflationRate = 6.5 / 100;
   const years = currentYear - year;
   const futureValue = amount * Math.pow(1 + averageInflationRate, years);
-  const formattedValue = futureValue.toLocaleString('en-IN');
+  const formattedValue = formatIndianCurrency(Math.round(futureValue));
 
   // Display the result
-  output.innerHTML = `₹${amount.toLocaleString('en-IN')} in year ${year} is worth approximately <br> ₹${formattedValue} in ${currentYear}.`;
+  output.innerHTML = `₹${formatIndianCurrency(amount)} in year ${year} is worth approximately <br> ₹${formattedValue} in ${currentYear}.`;
   resultDiv.style.display = 'block';
 }

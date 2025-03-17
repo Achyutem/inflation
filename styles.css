@@ -91,6 +91,18 @@ button:hover {
   white-space: normal;
 }
 
+.error-message {
+  color: #dc3545;
+  font-size: 14px;
+  margin-top: 5px;
+  display: none;
+}
+
+.error-input {
+  border-color: #dc3545;
+  background-color: #fff5f5;
+}
+
 @media (max-width: 768px) {
   body {
     display: block;
