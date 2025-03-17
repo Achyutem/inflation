@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Inflation Calculator</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="calculator">
+    <h1>Inflation Calculator</h1>
+    <p>Find the value of money from any year in today's terms!</p>
+    <div class="input-group">
+      <label for="year">Enter Year:</label>
+      <input type="number" id="year" placeholder="e.g., 1947" min="1947" max="2023">
+    </div>
+    <div class="input-group">
+      <label for="amount">Enter Amount (INR):</label>
+      <input type="number" id="amount" placeholder="e.g., 100">
+    </div>
+    <button onclick="calculateInflation()">Calculate</button>
+    <div class="result">
+      <h2 id="output"></h2>
+    </div>
+  </div>
+  <script src="script.js"></script>
+</body>
+</html>
