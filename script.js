@@ -23,6 +23,6 @@ function calculateInflation() {
   const formattedValue = futureValue.toLocaleString('en-IN');
 
   // Display the result
-  output.innerHTML = `₹${amount.toLocaleString('en-IN')} in ${year} is worth approximately <br> ₹${formattedValue} in ${currentYear}.`;
+  output.innerHTML = `₹${amount.toLocaleString('en-IN')} in year ${year} is worth approximately <br> ₹${formattedValue} in ${currentYear}.`;
   resultDiv.style.display = 'block';
 }
