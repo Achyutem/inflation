@@ -1,45 +1,65 @@
 function formatIndianCurrency(number) {
-  return new Intl.NumberFormat('en-IN').format(number);
+    return new Intl.NumberFormat('en-IN', { maximumFractionDigits: 2 }).format(number);
+}
+
+// Function to get query parameters from the URL
+function getQueryParam(param) {
+    const urlParams = new URLSearchParams(window.location.search);
+    return urlParams.get(param);
+}
+
+// Extract referral source from URL and send to Google Analytics
+const referralSource = getQueryParam('ref');
+
+if (referralSource) {
+    console.log("Referral Source:", referralSource);
+    gtag('event', 'referral', {
+        'event_category': 'traffic_source',
+        'event_label': referralSource
+    });
 }
 
 function calculateInflation() {
-  const yearInput = document.getElementById('year');
-  const year = parseInt(yearInput.value);
-  const amount = parseFloat(document.getElementById('amount').value);
-  const resultDiv = document.querySelector('.result');
-  const output = document.getElementById('output');
-  const yearErrorDiv = document.getElementById('year-error');
+    const yearInput = document.getElementById('year');
+    const year = parseInt(yearInput.value);
+    const amount = parseFloat(document.getElementById('amount').value);
+    const resultDiv = document.querySelector('.result');
+    const output = document.getElementById('output');
+    const yearErrorDiv = document.getElementById('year-error');
+    const amountErrorDiv = document.getElementById('amount-error');
 
-  // Reset previous error message and result
-  yearErrorDiv.textContent = '';
-  resultDiv.style.display = 'none';
+    yearErrorDiv.textContent = '';
+    amountErrorDiv.textContent = '';
+    yearErrorDiv.style.display = 'none';
+    amountErrorDiv.style.display = 'none';
+    resultDiv.style.display = 'none';
+    yearInput.classList.remove('error-input');
 
-  // Validation for year
-  if (isNaN(year) || year < 1947 || year > 2023) {
-    yearErrorDiv.textContent = 'Please enter a valid year (1947–2023).';
-    yearErrorDiv.style.display = 'block';
-    yearInput.classList.add('error-input');
-    return;
-  }
+    if (isNaN(year) || year < 1947 || year > 2023) {
+        yearErrorDiv.textContent = 'Please enter a valid year (1947–2023).';
+        yearErrorDiv.style.display = 'block';
+        yearInput.classList.add('error-input');
+        return;
+    }
 
-  yearErrorDiv.style.display = 'none';
-  yearInput.classList.remove('error-input');
+    if (isNaN(amount) || amount <= 0) {
+        amountErrorDiv.textContent = 'Please enter a valid amount greater than 0.';
+        amountErrorDiv.style.display = 'block';
+        return;
+    }
 
-  // Validation for amount
-  if (isNaN(amount) || amount <= 0) {
-    yearErrorDiv.textContent = 'Please enter a valid amount greater than 0.';
-    yearErrorDiv.style.display = 'block';
-    return;
-  }
+    const currentYear = 2025;
+    const averageInflationRate = 6.5 / 100;
+    const years = currentYear - year;
+    const futureValue = amount * Math.pow(1 + averageInflationRate, years);
+    const formattedValue = formatIndianCurrency(Math.round(futureValue));
 
-  // Inflation Calculation
-  const currentYear = 2025;
-  const averageInflationRate = 6.5 / 100;
-  const years = currentYear - year;
-  const futureValue = amount * Math.pow(1 + averageInflationRate, years);
-  const formattedValue = formatIndianCurrency(Math.round(futureValue));
-
-  // Display the result
-  output.innerHTML = `₹${formatIndianCurrency(amount)} in year ${year} is worth approximately <br> ₹${formattedValue} in ${currentYear}.`;
-  resultDiv.style.display = 'block';
+    output.innerHTML = `₹${formatIndianCurrency(amount)} in year ${year} is worth approximately <br> ₹${formattedValue} in ${currentYear}.`;
+    resultDiv.style.display = 'block';
 }
+
+document.addEventListener('keydown', function(event) {
+    if (event.key === 'Enter') {
+        calculateInflation();
+    }
+});
