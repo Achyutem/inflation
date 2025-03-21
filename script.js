@@ -7,11 +7,11 @@ function getQueryParam(param) {
     return urlParams.get(param);
 }
 
-const referralSource = getQueryParam('ref');
-if (referralSource) {
+const referralSourcee = getQueryParam('ref');
+if (referralSourcee) {
     gtag('event', 'custom_referral', {
         'event_category': 'traffic_source',
-        'referral_source': referralSource
+        'referral_source': referralSourcee
     });
 }
 
