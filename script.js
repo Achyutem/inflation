@@ -2,13 +2,11 @@ function formatIndianCurrency(number) {
     return new Intl.NumberFormat('en-IN', { maximumFractionDigits: 2 }).format(number);
 }
 
-// Function to get query parameters from the URL
 function getQueryParam(param) {
     const urlParams = new URLSearchParams(window.location.search);
     return urlParams.get(param);
 }
 
-// Extract referral source from URL and send to Google Analytics
 const referralSource = getQueryParam('ref');
 if (referralSource) {
     gtag('event', 'custom_referral', {
@@ -17,14 +15,13 @@ if (referralSource) {
     });
 }
 
-// const referralSource = getQueryParam('ref');
-// if (referralSource) {
-//     console.log("Referral Source:", referralSource);
-//     gtag('event', 'referral', {
-//         'event_category': 'traffic_source',
-//         'custom_referral': referralSource
-//     });
-// }
+const referralSource = getQueryParam('ref');
+if (referralSource) {
+    gtag('event', 'referral', {
+        'event_category': 'traffic_source',
+        'custom_referral': referralSource
+    });
+}
 
 function calculateInflation() {
     const yearInput = document.getElementById('year');
@@ -65,32 +62,27 @@ function calculateInflation() {
     resultDiv.style.display = 'block';
 }
 
-// Handle pressing Enter to calculate
 document.addEventListener('keydown', function(event) {
     if (event.key === 'Enter') {
         calculateInflation();
     }
 });
 
-// LIKE BUTTON FUNCTIONALITY
 function updateLikeUI() {
     const likeCount = localStorage.getItem('likeCount') || 0;
     document.getElementById('like-count').textContent = likeCount;
 }
 
-// Handle like button click
 document.getElementById('like-button').addEventListener('click', function() {
     let likeCount = localStorage.getItem('likeCount') || 0;
     likeCount = parseInt(likeCount) + 1;
     localStorage.setItem('likeCount', likeCount);
     updateLikeUI();
 
-    // Track event in Google Analytics
     gtag('event', 'like', {
         'event_category': 'engagement',
         'event_label': 'Project Liked'
     });
 });
 
-// Initialize like count on page load
 updateLikeUI();
