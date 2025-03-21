@@ -14,7 +14,7 @@ if (referralSource) {
     console.log("Referral Source:", referralSource);
     gtag('event', 'referral', {
         'event_category': 'traffic_source',
-        'event_label': referralSource
+        'custom_referral': referralSource
     });
 }
 
@@ -34,8 +34,8 @@ function calculateInflation() {
     resultDiv.style.display = 'none';
     yearInput.classList.remove('error-input');
 
-    if (isNaN(year) || year < 1947 || year > 2023) {
-        yearErrorDiv.textContent = 'Please enter a valid year (1947–2023).';
+    if (isNaN(year) || year < 1947 || year > 2025) {
+        yearErrorDiv.textContent = 'Please enter a valid year (1947–2025).';
         yearErrorDiv.style.display = 'block';
         yearInput.classList.add('error-input');
         return;
