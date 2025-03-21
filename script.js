@@ -11,12 +11,20 @@ function getQueryParam(param) {
 // Extract referral source from URL and send to Google Analytics
 const referralSource = getQueryParam('ref');
 if (referralSource) {
-    console.log("Referral Source:", referralSource);
-    gtag('event', 'referral', {
+    gtag('event', 'custom_referral', {
         'event_category': 'traffic_source',
-        'custom_referral': referralSource
+        'referral_source': referralSource
     });
 }
+
+// const referralSource = getQueryParam('ref');
+// if (referralSource) {
+//     console.log("Referral Source:", referralSource);
+//     gtag('event', 'referral', {
+//         'event_category': 'traffic_source',
+//         'custom_referral': referralSource
+//     });
+// }
 
 function calculateInflation() {
     const yearInput = document.getElementById('year');
