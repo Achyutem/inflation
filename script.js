@@ -59,21 +59,44 @@ document.addEventListener('keydown', function(event) {
     }
 });
 
-function updateLikeUI() {
-    const likeCount = localStorage.getItem('likeCount') || 0;
-    document.getElementById('like-count').textContent = likeCount;
+const BIN_ID = "67dfb9fb8960c979a576bcf1"
+const API_KEY = "$2a$10$TJDp4VBjaNjiSszauNJyPeg0jG2W/j.7tv3SuxEr.O/OkX5XBNDFu";
+const BIN_URL = `https://api.jsonbin.io/v3/b/${BIN_ID}`;
+
+async function fetchLikes() {
+    try {
+        const response = await fetch(BIN_URL, {
+            headers: { "X-Master-Key": API_KEY }
+        });
+        const data = await response.json();
+        document.getElementById("like-count").textContent = data.record.likes;
+    } catch (error) {
+        console.error("Error fetching likes:", error);
+    }
 }
 
-document.getElementById('like-button').addEventListener('click', function() {
-    let likeCount = localStorage.getItem('likeCount') || 0;
-    likeCount = parseInt(likeCount) + 1;
-    localStorage.setItem('likeCount', likeCount);
-    updateLikeUI();
+async function incrementLike() {
+    try {
+        const response = await fetch(BIN_URL, {
+            headers: { "X-Master-Key": API_KEY }
+        });
+        const data = await response.json();
+        const newLikes = data.record.likes + 1;
 
-    gtag('event', 'like', {
-        'event_category': 'engagement',
-        'event_label': 'Project Liked'
-    });
-});
+        await fetch(BIN_URL, {
+            method: "PUT",
+            headers: {
+                "Content-Type": "application/json",
+                "X-Master-Key": API_KEY
+            },
+            body: JSON.stringify({ likes: newLikes })
+        });
 
-updateLikeUI();
+        fetchLikes();
+    } catch (error) {
+        console.error("Error updating likes:", error);
+    }
+}
+
+document.getElementById("like-button").addEventListener("click", incrementLike);
+fetchLikes();
