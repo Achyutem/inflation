@@ -152,8 +152,8 @@ button:hover {
   }
 
   .calculator {
-    width: 100%;  /* Ensure it takes full width */
-    max-width: 100%;  /* Remove width restrictions */
+    width: 100%;
+    max-width: 100%; 
     box-shadow: none;
     border-radius: 0;
     padding: 1.2rem;
@@ -162,6 +162,7 @@ button:hover {
   input {
     font-size: 1rem;
     padding: 0.8rem;
+    width: 90%;
   }
 
   button {
@@ -187,36 +188,6 @@ button:hover {
     padding: 2.5rem;
   }
 }
-
-/* @media (max-width: 768px) { */
-/*   body { */
-/*     display: block; */
-/*     padding: 2rem 1rem; */
-/*     overflow-y: auto; */
-/*   } */
-/**/
-/*   .calculator { */
-/*     width: 100%; */
-/*     max-width: none; */
-/*     box-shadow: none; */
-/*     border-radius: 0; */
-/*     padding: 1.5rem; */
-/*   } */
-/* } */
-/**/
-/* @media (min-width: 768px) { */
-/*   body { */
-/*     display: flex; */
-/*     justify-content: center; */
-/*     align-items: center; */
-/*     min-height: 100vh; */
-/*   } */
-/**/
-/*   .calculator { */
-/*     max-width: 450px; */
-/*     padding: 2.5rem; */
-/*   } */
-/* } */
 
 .like-container {
   margin-top: 1rem;
