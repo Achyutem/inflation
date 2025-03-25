@@ -44,7 +44,7 @@ function calculateInflation() {
     }
 
     const currentYear = 2025;
-    const averageInflationRate = 6.5 / 100;
+    const averageInflationRate = 7.3 / 100;
     const years = currentYear - year;
     const futureValue = amount * Math.pow(1 + averageInflationRate, years);
     const formattedValue = formatIndianCurrency(Math.round(futureValue));
@@ -100,3 +100,20 @@ async function incrementLike() {
 
 document.getElementById("like-button").addEventListener("click", incrementLike);
 fetchLikes();
+
+document.addEventListener("DOMContentLoaded", function () {
+    const infoButton = document.getElementById("info-button");
+    const infoModal = document.getElementById("info-modal");
+
+    infoButton.addEventListener("click", function (event) {
+        event.stopPropagation();
+        infoModal.style.display = infoModal.style.display === "block" ? "none" : "block";
+    });
+
+    document.addEventListener("click", function (event) {
+        if (!infoButton.contains(event.target) && !infoModal.contains(event.target)) {
+            infoModal.style.display = "none";
+        }
+    });
+});
+

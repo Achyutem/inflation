@@ -6,8 +6,6 @@
   <title>Inflation Calculator</title>
   <link href="https://fonts.googleapis.com/css2?family=Fira+Mono&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="styles.css">
-  
-  <!-- Google Analytics -->
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-04K84HYZZ4"></script>
   <script>
     window.dataLayer = window.dataLayer || [];
@@ -20,6 +18,18 @@
   <div class="calculator">
     <h1>Inflation Calculator</h1>
     <p>Find the value of rupee (INR) from any year in today's terms!</p>
+    <div class="info-container">
+      <button id="info-button">ℹ️</button>
+      <div id="info-modal" class="info-modal">
+        <p>
+          This calculator estimates the value of Indian Rupees over time based on historical inflation rates.
+          Reliable data is available from 1960 onwards, and for years prior to 1960 (since 1947), the values are extrapolated based on similar trends.
+          Inflation rates fluctuate yearly, so the calculation is an approximation.
+        </p>
+        <p><strong>Source:</strong> <a href="https://www.worlddata.info/asia/india/inflation-rates.php?utm_source=chatgpt.com" target="_blank">World Data - Inflation Rates</a></p>
+      </div>
+    </div>
+
 
     <div class="input-group">
       <label for="year">Enter Year:</label>
@@ -39,7 +49,6 @@
       <h2 id="output"></h2>
     </div>
 
-    <!-- Like Button Section -->
     <div class="like-container">
       <button id="like-button">❤️ Like (<span id="like-count">0</span>)</button>
     </div>
