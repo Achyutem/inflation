@@ -162,13 +162,13 @@ button:hover {
   input {
     font-size: 1rem;
     padding: 0.8rem;
-    width: 95%;
+    width: 90%;
   }
 
-  button {
+  /* button {
     font-size: 1rem;
     padding: 0.8rem;
-  }
+  } */
 
   .result {
     font-size: 1.2rem;
@@ -181,6 +181,12 @@ button:hover {
     justify-content: center;
     align-items: center;
     min-height: 100vh;
+  }
+
+  input {
+    font-size: 1rem;
+    padding: 0.8rem;
+    width: 90%;
   }
 
   .calculator {
