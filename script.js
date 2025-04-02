@@ -169,39 +169,41 @@ function formatIndianCurrency(number) {
       console.error("Error fetching likes:", error);
     }
   }
-  
+
   async function incrementLike() {
-    try {
-      const response = await fetch(BIN_URL, {
-        headers: { "X-Master-Key": API_KEY }
-      });
-      const data = await response.json();
-      const newLikes = data.record.likes + 1;
-      await fetch(BIN_URL, {
-        method: "PUT",
-        headers: {
-          "Content-Type": "application/json",
-          "X-Master-Key": API_KEY
-        },
-        body: JSON.stringify({ likes: newLikes })
-      });
-      fetchLikes();
-      
-      const likeButton = document.getElementById("like-button");
-      const heart = document.createElement("span");
-      heart.classList.add("floating-heart");
-      heart.innerHTML = "❤️";
-      likeButton.appendChild(heart);
-      
-      setTimeout(() => {
+    const likeCountElement = document.getElementById("like-count");
+
+    let currentLikes = parseInt(likeCountElement.textContent, 10) || 0;
+    likeCountElement.textContent = currentLikes + 1;
+
+    const likeButton = document.getElementById("like-button");
+    const heart = document.createElement("span");
+    heart.classList.add("floating-heart");
+    heart.innerHTML = "❤️";
+    likeButton.appendChild(heart);
+    
+    setTimeout(() => {
         heart.remove();
-      }, 1000);
-      
+    }, 1000);
+
+    try {
+        const response = await fetch(BIN_URL, { headers: { "X-Master-Key": API_KEY } });
+        const data = await response.json();
+        const newLikes = data.record.likes + 1;
+
+        await fetch(BIN_URL, {
+            method: "PUT",
+            headers: {
+                "Content-Type": "application/json",
+                "X-Master-Key": API_KEY
+            },
+            body: JSON.stringify({ likes: newLikes })
+        });
     } catch (error) {
-      console.error("Error updating likes:", error);
+        console.error("Error updating likes:", error);
     }
-  }
-  
+}
+
   document.addEventListener("DOMContentLoaded", function () {
     const infoButton = document.getElementById("info-button");
     const infoModal = document.getElementById("info-modal");
