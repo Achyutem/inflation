@@ -21,9 +21,8 @@ document.addEventListener("DOMContentLoaded", function () {
 
   if (starButton) {
     starButton.addEventListener("click", function () {
-      gtag("event", "click", {
-        event_category: "engagement",
-        event_label: "github_star",
+      gtag("event", "custom_referral", {
+        referral_source: "github_star",
       });
 
       window.open("https://github.com/achyutem/inflation", "_blank");
