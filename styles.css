@@ -15,6 +15,7 @@
   --chart-fd: #4caf50;
   --chart-gold: #ffc107;
   --chart-sensex: #2196f3;
+  --chart-nifty: #8e4fe7;
   --shadow: rgba(114, 96, 240, 0.1);
 }
 
@@ -42,7 +43,7 @@
 }
 
 body {
-  font-family: 'Space Grotesk', sans-serif;
+  font-family: "Space Grotesk", sans-serif;
   background-color: var(--background);
   color: var(--text);
   min-height: 100vh;
@@ -180,7 +181,7 @@ input {
   border: 1px solid var(--border);
   border-radius: 12px;
   font-size: 16px;
-  font-family: 'Space Grotesk', sans-serif;
+  font-family: "Space Grotesk", sans-serif;
   background-color: var(--input-bg);
   color: var(--text);
   transition: all 0.3s;
@@ -245,7 +246,11 @@ input.error-input {
 }
 
 .result-card {
-  background: linear-gradient(135deg, rgba(114, 96, 240, 0.05), rgba(255, 107, 107, 0.05));
+  background: linear-gradient(
+    135deg,
+    rgba(114, 96, 240, 0.05),
+    rgba(255, 107, 107, 0.05)
+  );
   border-radius: 16px;
   padding: 30px;
   text-align: center;
@@ -300,6 +305,10 @@ input.error-input {
   background-color: var(--chart-sensex);
 }
 
+.chart-bar.nifty {
+  background-color: var(--chart-nifty);
+}
+
 .chart-value {
   position: absolute;
   width: 100%;
@@ -307,7 +316,6 @@ input.error-input {
   font-weight: 600;
   z-index: 5;
   font-size: 12px;
-  /* Moved outside the bar and positioned */
   top: -25px;
   color: var(--text);
   white-space: nowrap;
@@ -325,7 +333,7 @@ input.error-input {
 
 /* Value indicator lines and dots */
 .chart-bar::after {
-  content: '';
+  content: "";
   position: absolute;
   top: 0;
   left: 50%;
@@ -338,7 +346,7 @@ input.error-input {
 }
 
 .chart-bar::before {
-  content: '';
+  content: "";
   position: absolute;
   top: -10px;
   left: 50%;
@@ -388,6 +396,10 @@ input.error-input {
   border-left-color: var(--chart-sensex);
 }
 
+.comparison-item.nifty {
+  border-left-color: var(--chart-nifty);
+}
+
 .comparison-name {
   grid-area: name;
   font-weight: 600;
@@ -413,6 +425,10 @@ input.error-input {
   color: var(--chart-sensex);
 }
 
+.comparison-item.nifty .comparison-value {
+  color: var(--chart-nifty);
+}
+
 .comparison-ratio {
   grid-area: ratio;
   font-size: 14px;
@@ -428,29 +444,31 @@ input.error-input {
 
 .footer {
   display: flex;
-  justify-content: space-between;
+  justify-content: center;
   align-items: center;
-  margin-top: 20px;
   flex-wrap: wrap;
-  gap: 15px;
+  gap: 10px;
+  margin-top: 20px;
 }
 
 .info-button {
-  background: transparent;
-  border: 1px solid var(--border);
-  color: var(--text-light);
-  padding: 8px 15px;
+  background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+  color: white;
+  border: none;
   border-radius: 8px;
+  padding: 8px 15px;
   font-size: 14px;
   cursor: pointer;
   display: flex;
   align-items: center;
-  gap: 5px;
+  gap: 8px;
+  position: relative;
+  overflow: hidden;
 }
 
 .info-button:hover {
-  border-color: var(--primary-light);
-  color: var(--primary);
+  transform: translateY(-2px);
+  box-shadow: 0 5px 15px var(--shadow);
 }
 
 .info-modal {
@@ -502,7 +520,7 @@ input.error-input {
 }
 
 .like-button {
-  background: linear-gradient(135deg, var(--primary-light), var(--primary));
+  background: linear-gradient(135deg, var(--primary), var(--primary-dark));
   color: white;
   border: none;
   border-radius: 8px;
@@ -528,6 +546,36 @@ input.error-input {
   pointer-events: none;
 }
 
+input[type="number"] {
+  appearance: textfield;
+}
+
+input[type="number"]::-webkit-outer-spin-button,
+input[type="number"]::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+.star-button {
+  background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+  color: white;
+  border: none;
+  border-radius: 8px;
+  padding: 8px 15px;
+  font-size: 14px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  text-decoration: none;
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.star-button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 5px 15px var(--shadow);
+}
+
 @keyframes float-up {
   0% {
     opacity: 1;
@@ -544,25 +592,25 @@ input.error-input {
   .calculator-card {
     padding: 20px 15px;
   }
-  
+
   h1 {
     font-size: 26px;
   }
-  
+
   #output {
     font-size: 18px;
   }
-  
+
   .chart-container {
     height: 180px;
     margin: 50px 0 40px;
   }
-  
+
   .chart {
     gap: 10px;
     padding: 0 10px;
   }
-  
+
   .chart-value {
     font-size: 10px;
     transform: rotate(-45deg);
@@ -570,20 +618,23 @@ input.error-input {
     left: 8px;
     top: -18px;
   }
-  
+
   .chart-label {
     font-size: 12px;
   }
-  
+
   .footer {
-    flex-direction: column;
-    align-items: stretch;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 10px;
+    padding: 10px;
   }
-  
+
   .chart-bar {
     position: relative;
   }
-  
+
   .chart-bar::before {
     height: 15px;
     top: -15px;
@@ -595,11 +646,11 @@ input.error-input {
   .chart {
     gap: 5px;
   }
-  
+
   .chart-value {
     font-size: 9px;
   }
-  
+
   .chart-label {
     font-size: 10px;
     white-space: nowrap;

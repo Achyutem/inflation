@@ -1,125 +1,188 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>INR Time Machine | Inflation & Investment Calculator</title>
-  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="styles.css">
-  <script async src="https://www.googletagmanager.com/gtag/js?id=G-04K84HYZZ4"></script>
-  <script>
-    window.dataLayer = window.dataLayer || [];
-    function gtag(){dataLayer.push(arguments);}
-    gtag('js', new Date());
-    gtag('config', 'G-04K84HYZZ4');
-  </script>
-</head>
-<body>
-  <div class="page-container">
-    <button id="theme-switcher" class="theme-switcher">🌙</button>
-    
-    <div class="calculator-container">
-      <div class="calculator-header">
-        <div class="logo-container">
-          <div class="logo">₹</div>
-        </div>
-        <h1>INR Time Machine</h1>
-        <p class="tagline">Visualize the power of time on your money</p>
-      </div>
-      
-      <div class="calculator-card">
-        <div class="input-section">
-          <div class="input-group year-input">
-            <label for="year">Starting Year</label>
-            <div class="input-wrapper">
-              <input type="number" id="year" placeholder="1947 to 2025" min="1947" max="2025">
-              <div class="input-decoration">📅</div>
-            </div>
-            <div id="year-error" class="error-message"></div>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>INR Time Machine | Inflation & Investment Calculator</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="styles.css" />
+    <script
+      async
+      src="https://www.googletagmanager.com/gtag/js?id=G-04K84HYZZ4"
+    ></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag() {
+        dataLayer.push(arguments);
+      }
+      gtag("js", new Date());
+      gtag("config", "G-04K84HYZZ4");
+    </script>
+  </head>
+  <body>
+    <div class="page-container">
+      <button id="theme-switcher" class="theme-switcher">🌙</button>
+
+      <div class="calculator-container">
+        <div class="calculator-header">
+          <div class="logo-container">
+            <div class="logo">₹</div>
           </div>
-          
-          <div class="input-group amount-input">
-            <label for="amount">Amount (₹)</label>
-            <div class="input-wrapper">
-              <input type="number" id="amount" placeholder="e.g., 100">
-              <div class="input-decoration">₹</div>
-            </div>
-            <div id="amount-error" class="error-message"></div>
-          </div>
-          
-          <button class="calculate-btn" onclick="calculateInflation()">
-            <span class="btn-text">Calculate</span>
-            <span class="btn-icon">→</span>
-          </button>
+          <h1>INR Time Machine</h1>
+          <p class="tagline">Visualize the power of time on your money</p>
         </div>
-        
-        <div class="result">
-          <div class="result-card">
-            <h2 id="output"></h2>
-            
-            <div class="chart-container">
-              <div class="chart">
-                <div class="chart-bar inflation">
-                  <div class="chart-value"></div>
-                  <div class="chart-label">Inflation</div>
-                </div>
-                <div class="chart-bar fd">
-                  <div class="chart-value"></div>
-                  <div class="chart-label">FD</div>
-                </div>
-                <div class="chart-bar gold">
-                  <div class="chart-value"></div>
-                  <div class="chart-label">Gold</div>
-                </div>
-                <div class="chart-bar sensex">
-                  <div class="chart-value"></div>
-                  <div class="chart-label">Sensex</div>
+
+        <div class="calculator-card">
+          <div class="input-section">
+            <div class="input-group year-input">
+              <label for="year">Starting Year</label>
+              <div class="input-wrapper">
+                <input
+                  type="number"
+                  id="year"
+                  placeholder="1947 to 2025"
+                  min="1947"
+                  max="2025"
+                />
+                <div class="input-decoration">📅</div>
+              </div>
+              <div id="year-error" class="error-message"></div>
+            </div>
+
+            <div class="input-group amount-input">
+              <label for="amount">Amount (₹)</label>
+              <div class="input-wrapper">
+                <input type="number" id="amount" placeholder="e.g., 100" />
+              </div>
+              <div id="amount-error" class="error-message"></div>
+            </div>
+
+            <button class="calculate-btn" onclick="calculateInflation()">
+              <span class="btn-text">Calculate</span>
+              <span class="btn-icon">→</span>
+            </button>
+          </div>
+
+          <div class="result">
+            <div class="result-card">
+              <h2 id="output"></h2>
+
+              <div class="chart-container">
+                <div class="chart">
+                  <div class="chart-bar inflation">
+                    <div class="chart-value"></div>
+                    <div class="chart-label">Inflation</div>
+                  </div>
+                  <div class="chart-bar fd">
+                    <div class="chart-value"></div>
+                    <div class="chart-label">FD</div>
+                  </div>
+                  <div class="chart-bar gold">
+                    <div class="chart-value"></div>
+                    <div class="chart-label">Gold</div>
+                  </div>
+                  <div class="chart-bar sensex">
+                    <div class="chart-value"></div>
+                    <div class="chart-label">Sensex</div>
+                  </div>
+                  <div class="chart-bar nifty">
+                    <div class="chart-value"></div>
+                    <div class="chart-label">Nifty</div>
+                  </div>
                 </div>
               </div>
-            </div>
-            
-            <div id="comparison-output" class="comparison-output"></div>
-          </div>
-        </div>
-      </div>
-      
-      <div class="footer">
-        <div class="info-container">
-          <button id="info-button" class="info-button">ℹ️ About This Calculator</button>
-          <div id="info-modal" class="info-modal">
-            <div class="info-header">
-              <h3>About This Calculator</h3>
-              <span class="info-close">×</span>
-            </div>
-            <div class="info-content">
-              <p>
-                This calculator estimates the value of Indian Rupees over time based on historical inflation rates.
-                Reliable data is available from 1960 onwards, and for years prior to 1960 (since 1947), the values are extrapolated based on similar trends.
-              </p>
-              <p>
-                The comparison with investment options shows what your money could have been worth if invested in Fixed Deposits, Gold, or the Sensex stock market index.
-              </p>
-              <p><strong>Inflation Source:</strong> <a href="https://www.worlddata.info/asia/india/inflation-rates.php" target="_blank">World Data - Inflation Rates</a></p>
-              
-              <p><strong>Fixed Deposit Returns:</strong> <a href="https://www.rbi.org.in/scripts/PublicationsView.aspx?id=21072" target="_blank">Reserve Bank of India</a></p>
-              
-              <p><strong>Gold Returns:</strong> <a href="https://www.gold.org/goldhub/research/india-gold-market" target="_blank">World Gold Council</a></p>
-              
-              <p><strong>Sensex Returns:</strong> <a href="https://www.bseindia.com/indices/IndexArchiveData.html" target="_blank">Bombay Stock Exchange</a></p>
+
+              <div id="comparison-output" class="comparison-output"></div>
             </div>
           </div>
         </div>
-        
-        <div class="like-container">
-          <button id="like-button" class="like-button">
-            <span class="like-icon">❤️</span>
-            <span class="like-text">Support (<span id="like-count">0</span>)</span>
-          </button>
+
+        <div class="footer">
+          <div class="info-container">
+            <button id="info-button" class="info-button">🛈 About</button>
+            <div id="info-modal" class="info-modal">
+              <div class="info-header">
+                <h3>About This Calculator</h3>
+                <span class="info-close">×</span>
+              </div>
+              <div class="info-content">
+                <p>
+                  This calculator estimates the value of Indian Rupees over time
+                  based on historical inflation rates. Reliable data is
+                  available from 1960 onwards, and for years prior to 1960
+                  (since 1947), the values are extrapolated based on similar
+                  trends.
+                </p>
+                <p>
+                  The comparison with investment options shows what your money
+                  could have been worth if invested in Fixed Deposits, Gold, or
+                  the Sensex stock market index.
+                </p>
+                <p>
+                  <strong>Inflation Source:</strong>
+                  <a
+                    href="https://www.worlddata.info/asia/india/inflation-rates.php"
+                    target="_blank"
+                    >World Data - Inflation Rates</a
+                  >
+                </p>
+
+                <p>
+                  <strong>Fixed Deposit Returns:</strong>
+                  <a
+                    href="https://www.rbi.org.in/scripts/PublicationsView.aspx?id=21072"
+                    target="_blank"
+                    >Reserve Bank of India</a
+                  >
+                </p>
+
+                <p>
+                  <strong>Gold Returns:</strong>
+                  <a
+                    href="https://www.gold.org/goldhub/research/india-gold-market"
+                    target="_blank"
+                    >World Gold Council</a
+                  >
+                </p>
+
+                <p>
+                  <strong>Sensex Returns:</strong>
+                  <a
+                    href="https://www.bseindia.com/indices/IndexArchiveData.html"
+                    target="_blank"
+                    >Bombay Stock Exchange</a
+                  >
+                </p>
+
+                <p>
+                  <strong>Nifty 50 Returns:</strong>
+                  <a href="https://www.nseindia.com/all-reports" target="_blank"
+                    >National Stock Exchange of India</a
+                  >
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <div class="star-container">
+            <button id="star-button" class="star-button">🌟 Star Repo</button>
+          </div>
+
+          <div class="like-container">
+            <button id="like-button" class="like-button">
+              <span class="like-icon">❤️</span>
+              <span class="like-text"
+                >Like (<span id="like-count">0</span>)</span
+              >
+            </button>
+          </div>
         </div>
       </div>
     </div>
-  </div>
-  
-  <script src="script.js"></script>
-</body>
+
+    <script src="script.js"></script>
+  </body>
 </html>
