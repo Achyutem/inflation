@@ -114,7 +114,7 @@ function calculateInflation() {
   const formattedValue = formatIndianCurrency(Math.round(futureValue));
 
   const referenceYear = isPastCalculation ? year : currentYear;
-  const targetYear = isPastCalculation ? currentYear : year;
+  // const targetYear = isPastCalculation ? currentYear : year;
 
   const comparisonResults = calculateInvestmentComparisons(
     amount,
@@ -213,7 +213,6 @@ function calculateInvestmentComparisons(
     amount * Math.pow(1 + COUNTRY_INFLATION.india.avgInflation, years);
 
   Object.keys(INVESTMENT_DATA).forEach((key) => {
-    // Skip nifty and sensex for years before they existed (only for past calculations)
     if (!isFuture) {
       if (key === "nifty" && referenceYear < 1996) return;
       if (key === "sensex" && referenceYear < 1986) return;
