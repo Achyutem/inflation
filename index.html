@@ -38,18 +38,18 @@
         <div class="calculator-card">
           <div class="input-section">
             <div class="input-group year-input">
-              <label for="year">Starting Year</label>
+              <label for="year">Year</label>
               <div class="input-wrapper">
                 <input
                   type="number"
                   id="year"
-                  placeholder="1947 to 2025"
+                  placeholder="1947 to 2050"
                   min="1947"
-                  max="2025"
+                  max="2050"
                 />
                 <div class="input-decoration">📅</div>
               </div>
-              <div id="year-error" class="error-message"></div>
+              <div id="displayDiv"></div>
             </div>
 
             <div class="input-group amount-input">
@@ -60,10 +60,18 @@
               <div id="amount-error" class="error-message"></div>
             </div>
 
-            <button class="calculate-btn" onclick="calculateInflation()">
-              <span class="btn-text">Calculate</span>
-              <span class="btn-icon">→</span>
-            </button>
+            <div class="button-group">
+              <button class="calculate-btn" onclick="calculateInflation()">
+                <span class="btn-text">Calculate</span>
+              </button>
+              <button
+                id="dice-button"
+                class="dice-btn"
+                title="Try a random future value calculation"
+              >
+                🎲
+              </button>
+            </div>
           </div>
 
           <div class="result">
@@ -111,15 +119,14 @@
               <div class="info-content">
                 <p>
                   This calculator estimates the value of Indian Rupees over time
-                  based on historical inflation rates. Reliable data is
-                  available from 1960 onwards, and for years prior to 1960
-                  (since 1947), the values are extrapolated based on similar
-                  trends.
+                  based on historical inflation rates. You can:
                 </p>
+                <p>Calculate the present value of past money (1947-2025)</p>
+                <p>Predict the future value of today's money (2026-2050)</p>
                 <p>
                   The comparison with investment options shows what your money
                   could have been worth if invested in Fixed Deposits, Gold, or
-                  the Sensex stock market index.
+                  the stock market indices.
                 </p>
                 <p>
                   <strong>Inflation Source:</strong>

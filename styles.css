@@ -197,13 +197,6 @@ input.error-input {
   border-color: var(--error);
 }
 
-.error-message {
-  color: var(--error);
-  font-size: 12px;
-  margin-top: 5px;
-  display: none;
-}
-
 .calculate-btn {
   display: flex;
   align-items: center;
@@ -213,7 +206,7 @@ input.error-input {
   color: white;
   border: none;
   border-radius: 12px;
-  padding: 0 25px;
+  padding: 0 15px;
   font-size: 16px;
   font-weight: 600;
   cursor: pointer;
@@ -331,7 +324,6 @@ input.error-input {
   font-weight: 500;
 }
 
-/* Value indicator lines and dots */
 .chart-bar::after {
   content: "";
   position: absolute;
@@ -656,5 +648,65 @@ input[type="number"]::-webkit-inner-spin-button {
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
+  }
+}
+
+.button-group {
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
+  align-items: flex-end;
+}
+
+.dice-btn {
+  background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+  color: white;
+  border: none;
+  border-radius: 12px;
+  width: 50px;
+  height: 50px;
+  font-size: 22px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s;
+}
+
+.dice-btn:hover {
+  transform: translateY(-3px) rotate(15deg);
+  box-shadow: 0 10px 20px var(--shadow);
+}
+
+.comparison-item.country-usa {
+  border-left-color: #3b82f6;
+}
+
+.comparison-item.country-usa .comparison-value {
+  color: #3b82f6;
+}
+
+.comparison-item.country-china {
+  border-left-color: #ef4444;
+}
+
+.comparison-item.country-china .comparison-value {
+  color: #ef4444;
+}
+
+@media (max-width: 768px) {
+  .button-group {
+    width: 100%;
+    justify-content: space-between;
+  }
+
+  .calculate-btn {
+    flex: 1;
+  }
+}
+
+@media (max-width: 400px) {
+  .year-hint {
+    font-size: 10px;
   }
 }

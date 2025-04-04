@@ -56,6 +56,24 @@ const INVESTMENT_DATA = {
     link: "https://www.nseindia.com/all-reports",
   },
 };
+
+const COUNTRY_INFLATION = {
+  india: {
+    name: "India",
+    avgInflation: 0.073,
+  },
+  usa: {
+    name: "USA",
+    avgInflation: 0.025,
+    source: "US Federal Reserve Economic Data",
+  },
+  china: {
+    name: "China",
+    avgInflation: 0.032,
+    source: "National Bureau of Statistics of China",
+  },
+};
+
 function calculateInflation() {
   const yearInput = document.getElementById("year");
   const year = parseInt(yearInput.value);
@@ -63,19 +81,19 @@ function calculateInflation() {
   const resultDiv = document.querySelector(".result");
   const output = document.getElementById("output");
   const comparisonOutput = document.getElementById("comparison-output");
-  const yearErrorDiv = document.getElementById("year-error");
+  const displayDiv = document.getElementById("displayDiv");
   const amountErrorDiv = document.getElementById("amount-error");
 
-  yearErrorDiv.textContent = "";
+  displayDiv.textContent = "";
   amountErrorDiv.textContent = "";
-  yearErrorDiv.style.display = "none";
+  displayDiv.style.display = "none";
   amountErrorDiv.style.display = "none";
   resultDiv.style.display = "none";
   yearInput.classList.remove("error-input");
 
-  if (isNaN(year) || year < 1947 || year > 2025) {
-    yearErrorDiv.textContent = "Please enter a valid year (1947–2025).";
-    yearErrorDiv.style.display = "block";
+  if (isNaN(year) || year < 1947 || year > 2050) {
+    displayDiv.textContent = "Please enter a valid year (1947–2050).";
+    displayDiv.style.display = "block";
     yearInput.classList.add("error-input");
     return;
   }
@@ -87,18 +105,41 @@ function calculateInflation() {
   }
 
   const currentYear = 2025;
-  const averageInflationRate = 7.3 / 100;
-  const years = currentYear - year;
+  const averageInflationRate = COUNTRY_INFLATION.india.avgInflation;
+
+  const isPastCalculation = year <= currentYear;
+  const years = isPastCalculation ? currentYear - year : year - currentYear;
+
   const futureValue = amount * Math.pow(1 + averageInflationRate, years);
   const formattedValue = formatIndianCurrency(Math.round(futureValue));
 
-  const comparisonResults = calculateInvestmentComparisons(amount, years, year); // Pass year here
+  const referenceYear = isPastCalculation ? year : currentYear;
+  const targetYear = isPastCalculation ? currentYear : year;
 
-  output.innerHTML = `₹${formatIndianCurrency(
-    amount
-  )} in year ${year} is worth approximately <br> ₹${formattedValue} in ${currentYear}.`;
+  const comparisonResults = calculateInvestmentComparisons(
+    amount,
+    years,
+    referenceYear,
+    !isPastCalculation
+  );
 
-  let comparisonHTML = `<div class="comparison-title">What if you had invested in:</div>`;
+  const countryComparisons = isPastCalculation
+    ? {}
+    : calculateCountryComparisons(amount, years);
+
+  if (isPastCalculation) {
+    output.innerHTML = `₹${formatIndianCurrency(
+      amount
+    )} in year ${year} is worth approximately <br> ₹${formattedValue} in ${currentYear}.`;
+  } else {
+    output.innerHTML = `₹${formatIndianCurrency(
+      amount
+    )} in year ${currentYear} will be worth approximately <br> ₹${formattedValue} in ${year}.`;
+  }
+
+  let comparisonHTML = `<div class="comparison-title">What if you ${
+    isPastCalculation ? "had invested" : "invest"
+  } in:</div>`;
   Object.keys(comparisonResults).forEach((key) => {
     const item = comparisonResults[key];
     comparisonHTML += `
@@ -114,6 +155,27 @@ function calculateInflation() {
             </div>
         `;
   });
+
+  if (!isPastCalculation && Object.keys(countryComparisons).length > 0) {
+    comparisonHTML += `<div class="comparison-title">Equivalent value with inflation rates in:</div>`;
+    Object.keys(countryComparisons).forEach((key) => {
+      if (key !== "india") {
+        const item = countryComparisons[key];
+        comparisonHTML += `
+            <div class="comparison-item country-${key}">
+                <div class="comparison-name">${item.name}</div>
+                <div class="comparison-value">₹${formatIndianCurrency(
+                  item.value
+                )}</div>
+                <div class="comparison-ratio">${
+                  item.ratio
+                }× Indian inflation</div>
+                <div class="comparison-source">Source: ${item.source}</div>
+            </div>
+        `;
+      }
+    });
+  }
 
   comparisonOutput.innerHTML = comparisonHTML;
   resultDiv.style.display = "block";
@@ -135,24 +197,52 @@ function calculateInflation() {
       comparisonResults,
       futureValue,
       formatAmountForChart,
-      year
+      referenceYear
     );
   }, 100);
 }
 
-function calculateInvestmentComparisons(amount, years, year) {
+function calculateInvestmentComparisons(
+  amount,
+  years,
+  referenceYear,
+  isFuture = false
+) {
   const result = {};
-  const inflationValue = amount * Math.pow(1 + 0.073, years);
+  const inflationValue =
+    amount * Math.pow(1 + COUNTRY_INFLATION.india.avgInflation, years);
 
   Object.keys(INVESTMENT_DATA).forEach((key) => {
-    if (key === "nifty" && year < 1996) return;
-    if (key === "sensex" && year < 1986) return;
+    // Skip nifty and sensex for years before they existed (only for past calculations)
+    if (!isFuture) {
+      if (key === "nifty" && referenceYear < 1996) return;
+      if (key === "sensex" && referenceYear < 1986) return;
+    }
 
     const data = INVESTMENT_DATA[key];
     const investmentValue = amount * Math.pow(1 + data.avgReturn, years);
     result[key] = {
       value: Math.round(investmentValue),
       ratio: (investmentValue / inflationValue).toFixed(2),
+    };
+  });
+
+  return result;
+}
+
+function calculateCountryComparisons(amount, years) {
+  const result = {};
+  const indianInflationValue =
+    amount * Math.pow(1 + COUNTRY_INFLATION.india.avgInflation, years);
+
+  Object.keys(COUNTRY_INFLATION).forEach((key) => {
+    const data = COUNTRY_INFLATION[key];
+    const value = amount * Math.pow(1 + data.avgInflation, years);
+    result[key] = {
+      name: data.name,
+      value: Math.round(value),
+      ratio: (value / indianInflationValue).toFixed(2),
+      source: data.source || "World Economic Data",
     };
   });
 
@@ -183,9 +273,9 @@ function updateComparisonChart(
 
   Object.keys(INVESTMENT_DATA).forEach((key) => {
     const bar = document.querySelector(`.chart-bar.${key}`);
-    if (key === "nifty" && year < 1996) {
+    if (key === "nifty" && year < 1996 && year <= 2025) {
       bar.style.display = "none";
-    } else if (key === "sensex" && year < 1986) {
+    } else if (key === "sensex" && year < 1986 && year <= 2025) {
       bar.style.display = "none";
     } else if (comparisonResults[key]) {
       const item = comparisonResults[key];
@@ -193,6 +283,17 @@ function updateComparisonChart(
       bar.querySelector(".chart-value").textContent = formatFn(item.value);
     }
   });
+}
+
+function calculateRandom() {
+  document.getElementById("amount").value = 10000;
+
+  const currentYear = 2025;
+  const randomYear =
+    Math.floor(Math.random() * (2050 - currentYear)) + currentYear + 1;
+  document.getElementById("year").value = randomYear;
+
+  calculateInflation();
 }
 
 document.addEventListener("keydown", function (event) {
@@ -257,6 +358,11 @@ document.addEventListener("DOMContentLoaded", function () {
   const infoButton = document.getElementById("info-button");
   const infoModal = document.getElementById("info-modal");
   const infoClose = document.querySelector(".info-close");
+  const diceButton = document.getElementById("dice-button");
+
+  if (diceButton) {
+    diceButton.addEventListener("click", calculateRandom);
+  }
 
   if (infoClose) {
     infoClose.addEventListener("click", function () {
