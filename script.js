@@ -114,7 +114,6 @@ function calculateInflation() {
   const formattedValue = formatIndianCurrency(Math.round(futureValue));
 
   const referenceYear = isPastCalculation ? year : currentYear;
-  // const targetYear = isPastCalculation ? currentYear : year;
 
   const comparisonResults = calculateInvestmentComparisons(
     amount,
@@ -126,15 +125,14 @@ function calculateInflation() {
   const countryComparisons = isPastCalculation
     ? {}
     : calculateCountryComparisons(amount, years);
-
   if (isPastCalculation) {
-    output.innerHTML = `₹${formatIndianCurrency(
+    output.innerHTML = `What cost ₹${formatIndianCurrency(
       amount
-    )} in year ${year} is worth approximately <br> ₹${formattedValue} in ${currentYear}.`;
+    )} in ${year} would cost approximately <br> ₹${formattedValue} in ${currentYear}.`;
   } else {
-    output.innerHTML = `₹${formatIndianCurrency(
+    output.innerHTML = `To match the value of ₹${formatIndianCurrency(
       amount
-    )} in year ${currentYear} will be worth approximately <br> ₹${formattedValue} in ${year}.`;
+    )} today, you would need approximately <br> ₹${formattedValue} in ${year}, assuming average inflation.`;
   }
 
   let comparisonHTML = `<div class="comparison-title">What if you ${
@@ -148,7 +146,6 @@ function calculateInflation() {
                 <div class="comparison-value">₹${formatIndianCurrency(
                   item.value
                 )}</div>
-                <div class="comparison-ratio">${item.ratio}× inflation</div>
                 <div class="comparison-source">Source: ${
                   INVESTMENT_DATA[key].source
                 }</div>
@@ -167,9 +164,6 @@ function calculateInflation() {
                 <div class="comparison-value">₹${formatIndianCurrency(
                   item.value
                 )}</div>
-                <div class="comparison-ratio">${
-                  item.ratio
-                }× Indian inflation</div>
                 <div class="comparison-source">Source: ${item.source}</div>
             </div>
         `;
@@ -264,11 +258,11 @@ function updateComparisonChart(
     bar.style.display = "block";
   });
 
-  const inflationBar = document.querySelector(".chart-bar.inflation");
-  inflationBar.style.height = `${(inflationValue / maxValue) * 100}%`;
-  inflationBar.querySelector(".chart-value").textContent = formatFn(
-    Math.round(inflationValue)
-  );
+  // const inflationBar = document.querySelector(".chart-bar.inflation");
+  // inflationBar.style.height = `${(inflationValue / maxValue) * 100}%`;
+  // inflationBar.querySelector(".chart-value").textContent = formatFn(
+  //   Math.round(inflationValue)
+  // );
 
   Object.keys(INVESTMENT_DATA).forEach((key) => {
     const bar = document.querySelector(`.chart-bar.${key}`);
